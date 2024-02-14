@@ -75,7 +75,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
             $errors['passwordconfirm'] = 'Mot de pass non identique';
         }
     }
+
+    // On valide le captcha
+    if(!isset($_POST['g-recaptcha-response']) || empty($_POST['g-recaptcha-response'])) {
+        $errors['g-recaptcha-response'] = 'reCAPTHCA verification failed, please try again.';
+    } else {
+        $secret = '6LdHfXIpAAAAAL0NeWGc-bEYSTZy9iTySryNzR4G';
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'https://www.google.com/recaptcha/api/siteverify?secret='.$secret.'&response='.$_POST['g-recaptcha-response']);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($ch);
+        curl_close($ch);
+        $response = json_decode($response);
+
+        if($response->success) {
+            // Your code here to handle a successful verification
+            // echo 'Successful login.';
+        } else {
+            // What happens when the CAPTCHA was entered incorrectly
+            $errors['g-recaptcha-response'] = 'reCAPTHCA verification failed, please try again.';
+        }
+    }
+
     var_dump($errors);
+    var_dump($_POST);
     if(empty($errors)){
         $entmail = $_POST['mailadress'];
         $entsiret = $_POST['siretnumber'];

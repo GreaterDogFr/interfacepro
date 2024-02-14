@@ -59,9 +59,13 @@ include '../views/templates/header.php'
                     <?=isset($errors['passwordconfirm']) ? $errors['passwordconfirm'] : "";?>
             </p>
       </div>
+
+      <div class="g-recaptcha" data-sitekey="6LdHfXIpAAAAAEdk69HJGqZX85CbfCAaFwH2vRQz"></div>
+      
       <div class="center-align">
-            <button class="btn waves-effect waves-light" type="submit" name="action">S'inscrire</button>
+            <button class="btn waves-effect waves-light" type="submit" name="signup">S'inscrire</button>
       </div>
+
 </form>
 <p>Déjà un compte ? <a href="../controllers/controller-signin.php">Connectez-vous ici!</a></p>
 
