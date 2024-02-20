@@ -115,4 +115,84 @@ class Entreprise
             die();
         }
     }
-}
+
+    /**
+     * @param int $entid
+     * 
+     * return array
+     */
+    public static function getAllEmployees(int $entid)
+    {
+        try{
+            $database = new PDO('mysql:host=localhost;dbname=' . DBNAME . ';charset=utf8', DBUSERNAME, DBPASSWORD);
+
+            $sql = "SELECT * FROM `user__usr` WHERE `ENT_ID` = :ENT_ID";
+
+            $query = $database->prepare($sql);
+
+            $query->bindValue(':ENT_ID', $entid, PDO::PARAM_INT);
+
+            $query->execute();
+
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+
+            // on retourne le résultat
+            return $result;
+        } catch (PDOException $e) {
+            echo 'Erreur : ' . $e->getMessage();
+            die();
+        }
+    }
+
+    /**
+     * 
+     */
+    public static function validate(int $userid):string {
+        try{
+            $database = new PDO('mysql:host=localhost;dbname=' . DBNAME . ';charset=utf8', DBUSERNAME, DBPASSWORD);
+
+            $sql ="UPDATE `user__usr` SET USR_VALID = 1 WHERE USR_ID = :USR_ID ";
+            $query = $database->prepare($sql);
+            $query->bindValue(':USR_ID', $userid, PDO::PARAM_INT);
+            $query->execute();
+
+            $status = "success";
+            $message = "modification statut";
+            $array = ["status" => $status, "message" => $message];
+
+            $result= json_encode($array);
+
+            return $result;
+
+        }catch(PDOException $e){
+            echo 'Erreur: ' . $e->getMessage();
+            die();
+        }
+    }
+
+    /**
+     * 
+     */
+    public static function unvalidate(int $userid): string {
+        try{
+            $database = new PDO('mysql:host=localhost;dbname=' . DBNAME . ';charset=utf8', DBUSERNAME, DBPASSWORD);
+
+            $sql ="UPDATE `user__usr` SET USR_VALID = 0 WHERE USR_ID = :USR_ID ";
+            $query = $database->prepare($sql);
+            $query->bindValue(':USR_ID', $userid, PDO::PARAM_INT);
+            $query->execute();
+
+            $status = "success";
+            $message = "modification statut";
+            $array = ["status" => $status, "message" => $message];
+
+            $result= json_encode($array);
+
+            return $result;
+
+        }catch(PDOException $e){
+            echo 'Erreur: ' . $e->getMessage();
+            die();
+        }
+    }
+ }

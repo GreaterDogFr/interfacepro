@@ -1,7 +1,6 @@
 <?php
 require_once '../config.php';
 require_once '../models/Entreprise.php';
-//TODO: Nom entreprise, mot de passe, SIRET, Adresse, code postal, ville
 
 $paternSpecChar = '/[\'\/^£$%&*()}{@#~?><>,|=_+¬]/';
 $nonumberpatern = "/[a-zA-ZÀ-ÿ\-]+$/";
@@ -82,6 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     } else {
         $secret = '6LdHfXIpAAAAAL0NeWGc-bEYSTZy9iTySryNzR4G';
 
+        // curl est une fonction créant une session temporaire, qui ne se transmet pas de page en page. Utile pour fonction
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, 'https://www.google.com/recaptcha/api/siteverify?secret='.$secret.'&response='.$_POST['g-recaptcha-response']);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -98,8 +98,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
         }
     }
 
-    var_dump($errors);
-    var_dump($_POST);
     if(empty($errors)){
         $entmail = $_POST['mailadress'];
         $entsiret = $_POST['siretnumber'];
