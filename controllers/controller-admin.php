@@ -13,11 +13,7 @@ if(!isset($_SESSION['enterprise']))
 $entinfos = Entreprise::getInfos($_SESSION['enterprise']['ENT_MAIL']);
 $_SESSION['enterprise'] = $entinfos;
 
-if(isset($_POST['logout'])) {
-    session_destroy();
-    header("Location: ./controller-signin.php");
-}
+$employees = Entreprise::getAllEmployees($_SESSION['enterprise']['ENT_ID']);
 
 
-
-include '../views/view-home.php';
+include '../views/view-admin.php';

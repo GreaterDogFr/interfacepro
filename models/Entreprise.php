@@ -144,6 +144,29 @@ class Entreprise
         }
     }
 
+    public static function getEmployee(int $userid)
+    {
+        try{
+            $database = new PDO('mysql:host=localhost;dbname=' . DBNAME . ';charset=utf8', DBUSERNAME, DBPASSWORD);
+
+            $sql = "SELECT * FROM `user__usr` WHERE `USR_ID` = :USR_ID";
+
+            $query = $database->prepare($sql);
+
+            $query->bindValue(':USR_ID', $userid, PDO::PARAM_INT);
+
+            $query->execute();
+
+            $result = $query->fetch(PDO::FETCH_ASSOC);
+
+            // on retourne le résultat
+            return $result;
+        } catch(PDOException $e) {
+            echo 'Erreur: ' . $e->getMessage();
+            die();
+        }
+    }
+
     /**
      * 
      */

@@ -2,15 +2,29 @@
 require_once'../config.php';
 require_once'../models/Entreprise.php';
 
-    if(isset($_GET['validateid']))
+session_start();
+
+if(!isset($_SESSION['enterprise']))
+{
+    header("Location: ./controller-signin.php");
+}
+
+
+    if(isset($_GET['validateid']) && $_SESSION['enterprise'])
     {
-        Entreprise::validate($_GET['validateid']);
+        $userinfo = Entreprise::getEmployee($_GET['validateid']);
+        if($_SESSION['enterprise']['ENT_ID'] == $userinfo['ENT_ID']) {
+            Entreprise::validate($_GET['validateid']);
+        }
         
     }
-    if(isset($_GET['unvalidateid']))
+
+    if(isset($_GET['unvalidateid']) && $_SESSION['enterprise'])
     {
-        Entreprise::unvalidate($_GET['unvalidateid']);
-        
+        $userinfo = Entreprise::getEmployee($_GET['unvalidateid']);
+        if($_SESSION['enterprise']['ENT_ID'] == $userinfo['ENT_ID']) {
+            Entreprise::unvalidate($_GET['unvalidateid']);
+        }
     } 
 
 ?>
