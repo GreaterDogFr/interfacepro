@@ -20,11 +20,6 @@ include '../views/templates/header.php';
     </div>
 </nav>
 
-
-<form method="POST" action="../controllers/controller-home.php">
-    <button type="submit" name="logout" value="logout">Déconnexion</button>
-</form>
-
 <?php
 // Footer
 include '../views/templates/footer.php'
